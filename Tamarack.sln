@@ -16,6 +16,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Util", "Utilities\Util.vcxproj", "{172392A8-D69D-4DAE-9A4A-9511D946407D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tamarak", "Tamarak\Tamarak.vcxproj", "{5AB176BF-EB28-41CC-AB8C-2C33BE01B7A7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E4418626-ADF9-4EFB-895D-4BDA6161EC5A} = {E4418626-ADF9-4EFB-895D-4BDA6161EC5A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
