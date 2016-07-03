@@ -1,14 +1,15 @@
 #pragma once
 
 namespace Tamarack {
-  namespace Model {
+namespace Model {
 
-    class Tree;
+class Tree;
 
-    class TreeGenerator {
-    public:
-      Tree generateTree();
-    private:
-    };
-  }
+class TreeGenerator {
+ public:
+  Tree generateTree();
+
+ private:
+};
+}
 }

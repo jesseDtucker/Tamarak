@@ -1,10 +1,12 @@
+#include "pch.h"
+
+#include "DirectXPage.xaml.h"
+
 ﻿//
 // App.xaml.cpp
 // Implementation of the App class.
 //
 
-#include "pch.h"
-#include "DirectXPage.xaml.h"
 
 using namespace Tamarak;
 
@@ -26,11 +28,10 @@ using namespace Windows::UI::Xaml::Navigation;
 /// Initializes the singleton application object.  This is the first line of authored code
 /// executed, and as such is the logical equivalent of main() or WinMain().
 /// </summary>
-App::App()
-{
-	InitializeComponent();
-	Suspending += ref new SuspendingEventHandler(this, &App::OnSuspending);
-	Resuming += ref new EventHandler<Object^>(this, &App::OnResuming);
+App::App() {
+  InitializeComponent();
+  Suspending += ref new SuspendingEventHandler(this, &App::OnSuspending);
+  Resuming += ref new EventHandler<Object ^>(this, &App::OnResuming);
 }
 
 /// <summary>
@@ -39,28 +40,24 @@ App::App()
 /// search results, and so forth.
 /// </summary>
 /// <param name="e">Details about the launch request and process.</param>
-void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ e)
-{
+void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs ^ e) {
 #if _DEBUG
-	if (IsDebuggerPresent())
-	{
-		// DebugSettings->EnableFrameRateCounter = true;
-	}
+  if (IsDebuggerPresent()) {
+    // DebugSettings->EnableFrameRateCounter = true;
+  }
 #endif
 
-	if (m_directXPage == nullptr)
-	{
-		m_directXPage = ref new DirectXPage();
-	}
+  if (m_directXPage == nullptr) {
+    m_directXPage = ref new DirectXPage();
+  }
 
-	if (e->PreviousExecutionState == ApplicationExecutionState::Terminated)
-	{
-		m_directXPage->LoadInternalState(ApplicationData::Current->LocalSettings->Values);
-	}
+  if (e->PreviousExecutionState == ApplicationExecutionState::Terminated) {
+    m_directXPage->LoadInternalState(ApplicationData::Current->LocalSettings->Values);
+  }
 
-	// Place the page in the current window and ensure that it is active.
-	Window::Current->Content = m_directXPage;
-	Window::Current->Activate();
+  // Place the page in the current window and ensure that it is active.
+  Window::Current->Content = m_directXPage;
+  Window::Current->Activate();
 }
 
 /// <summary>
@@ -70,12 +67,11 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
 /// </summary>
 /// <param name="sender">The source of the suspend request.</param>
 /// <param name="e">Details about the suspend request.</param>
-void App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
-{
-	(void) sender;	// Unused parameter
-	(void) e;	// Unused parameter
+void App::OnSuspending(Object ^ sender, SuspendingEventArgs ^ e) {
+  (void)sender;  // Unused parameter
+  (void)e;       // Unused parameter
 
-	m_directXPage->SaveInternalState(ApplicationData::Current->LocalSettings->Values);
+  m_directXPage->SaveInternalState(ApplicationData::Current->LocalSettings->Values);
 }
 
 /// <summary>
@@ -83,10 +79,9 @@ void App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
 /// </summary>
 /// <param name="sender">The source of the resume request.</param>
 /// <param name="args">Details about the resume request.</param>
-void App::OnResuming(Object ^sender, Object ^args)
-{
-	(void) sender; // Unused parameter
-	(void) args; // Unused parameter
+void App::OnResuming(Object ^ sender, Object ^ args) {
+  (void)sender;  // Unused parameter
+  (void)args;    // Unused parameter
 
-	m_directXPage->LoadInternalState(ApplicationData::Current->LocalSettings->Values);
+  m_directXPage->LoadInternalState(ApplicationData::Current->LocalSettings->Values);
 }

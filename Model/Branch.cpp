@@ -3,14 +3,9 @@
 using namespace std;
 using namespace Tamarack::Model;
 
-Branch::Branch(const vector<Segment>& body)
-  : Branch(body, {})
-{ }
+Branch::Branch(const vector<Segment>& body) : Branch(body, {}) {}
 
-Branch::Branch(const vector<Segment>& body, const vector<Branch>& branches)
-  : _body(body)
-  , _branches(branches)
-{ }
+Branch::Branch(const vector<Segment>& body, const vector<Branch>& branches) : _body(body), _branches(branches) {}
 
 void Branch::translate(const Vector2d& delta) {
   for (auto& segment : _body) {
@@ -20,4 +15,3 @@ void Branch::translate(const Vector2d& delta) {
     branch.translate(delta);
   }
 }
-

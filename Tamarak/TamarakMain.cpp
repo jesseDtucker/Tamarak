@@ -1,7 +1,7 @@
 #include "pch.h"
 
-#include "TamarakMain.h"
 #include "Common\DirectXHelper.h"
+#include "TamarakMain.h"
 
 using namespace std;
 using namespace Tamarak;
