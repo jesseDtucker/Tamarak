@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+package Tamarack.Model.Serialized;
+
+message Point {
+  required float x = 1;
+  required float y = 2;
+}
+
+message Segment {
+  required Point pos = 1;
+  required float width = 2;
+}
+
+message Trunk {
+  repeated Segment body = 1;
+}
+
+message Branch {
+  repeated Segment body = 1;
+  repeated Branch branches = 2;
+}
+
+message Tree {
+  required Trunk trunk = 1;
+  repeated Branch branches = 2;
+}
