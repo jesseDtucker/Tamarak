@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "PropertyHelper.hpp"
 #include "Segment.hpp"
 
 namespace Tamarak {
@@ -16,14 +17,15 @@ class Branch final {
 
   Branch& operator=(const Branch&) = default;
 
-  const std::vector<Segment>& body() const;
-  const std::vector<Branch>& branches() const;
+  bool operator==(const Branch&) const;
+  bool operator!=(const Branch&) const;
+
+  PROP_SET_AND_GET(std::vector<Segment>, body);
+  PROP_SET_AND_GET(std::vector<Branch>, branches);
 
   void translate(const Vector2d& delta);
 
  private:
-  std::vector<Segment> _body;
-  std::vector<Branch> _branches;
 };
 }
 }

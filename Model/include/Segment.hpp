@@ -13,6 +13,9 @@ class Segment final {
 
   Segment& operator=(const Segment&) = default;
 
+  bool operator==(const Segment&) const;
+  bool operator!=(const Segment&) const;
+
   PROP_SET_AND_GET(Vector2d, position);
   PROP_SET_AND_GET(Vector2d, direction);
   PROP_SET_AND_GET(float, width);

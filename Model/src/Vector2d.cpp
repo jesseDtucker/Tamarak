@@ -51,6 +51,6 @@ float Vector2d::magnitude() const { return sqrtf(_x * _x + _y * _y); }
 
 Vector2d Vector2d::unitVector() const { return *this / magnitude(); }
 
-bool Tamarak::Model::Vector2d::operator==(const Vector2d& other) { return _x == other._x && _y == other._y; }
+bool Tamarak::Model::Vector2d::operator==(const Vector2d& other) const { return _x == other._x && _y == other._y; }
 
-bool Tamarak::Model::Vector2d::operator!=(const Vector2d& other) { return !(*this == other); }
+bool Tamarak::Model::Vector2d::operator!=(const Vector2d& other) const { return !(*this == other); }

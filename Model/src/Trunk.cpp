@@ -5,4 +5,6 @@ using namespace Tamarak::Model;
 
 Trunk::Trunk(const vector<Segment>& body) : _body(body) {}
 
-const vector<Segment>& Trunk::body() const { return _body; }
+bool Tamarak::Model::Trunk::operator==(const Trunk& other) const { return _body == other._body; }
+
+bool Tamarak::Model::Trunk::operator!=(const Trunk& other) const { return !(*this == other); }

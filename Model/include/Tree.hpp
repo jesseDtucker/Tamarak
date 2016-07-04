@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Branch.hpp"
+#include "PropertyHelper.hpp"
 #include "Trunk.hpp"
 
 namespace Tamarak {
@@ -16,12 +17,11 @@ class Tree final {
 
   Tree& operator=(const Tree&) = default;
 
-  const Trunk& trunk() const;
-  const std::vector<Branch>& branches() const;
+  bool operator==(const Tree&) const;
+  bool operator!=(const Tree&) const;
 
- private:
-  Trunk _trunk;
-  std::vector<Branch> _branches;
+  PROP_SET_AND_GET(Trunk, trunk);
+  PROP_SET_AND_GET(std::vector<Branch>, branches);
 };
 }
 }

@@ -5,6 +5,8 @@ using namespace Tamarak::Model;
 
 Tree::Tree(const Trunk& trunk, const vector<Branch>& branches) : _trunk(trunk), _branches(branches) {}
 
-const Trunk& Tree::trunk() const { return _trunk; }
+bool Tamarak::Model::Tree::operator==(const Tree& other) const {
+  return _branches != other._branches && _trunk != other._trunk;
+}
 
-const vector<Branch>& Tree::branches() const { return _branches; }
+bool Tamarak::Model::Tree::operator!=(const Tree& other) const { return !(*this == other); }

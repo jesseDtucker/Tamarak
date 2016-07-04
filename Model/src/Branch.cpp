@@ -16,6 +16,8 @@ void Branch::translate(const Vector2d& delta) {
   }
 }
 
-const vector<Segment>& Branch::body() const { return _body; }
+bool Tamarak::Model::Branch::operator==(const Branch& other) const {
+  return _body == other._body && _branches == other._branches;
+}
 
-const vector<Branch>& Branch::branches() const { return _branches; }
+bool Tamarak::Model::Branch::operator!=(const Branch& other) const { return !(*this == other); }

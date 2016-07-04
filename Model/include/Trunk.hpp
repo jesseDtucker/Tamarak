@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "PropertyHelper.hpp"
 #include "Segment.hpp"
 
 namespace Tamarak {
@@ -15,10 +16,10 @@ class Trunk final {
 
   Trunk& operator=(const Trunk&) = default;
 
-  const std::vector<Segment>& body() const;
+  bool operator==(const Trunk&) const;
+  bool operator!=(const Trunk&) const;
 
- private:
-  std::vector<Segment> _body;
+  PROP_SET_AND_GET(std::vector<Segment>, body);
 };
 }
 }

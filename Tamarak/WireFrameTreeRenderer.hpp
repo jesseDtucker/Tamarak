@@ -18,10 +18,12 @@ class WireFrameTreeRenderer final {
   void notifyScreenSizeChanged();
 
  private:
-  void drawSegments(ID2D1DeviceContext2& context);
+  void drawSegments(const std::vector<Model::Segment>& segments, ID2D1DeviceContext2& context);
+  void drawBranches(const std::vector<Model::Branch>& branches, ID2D1DeviceContext2& context);
+  void drawBranch(const Model::Branch& branch, ID2D1DeviceContext2& context);
+  void drawTrunk(const Model::Trunk& trunk, ID2D1DeviceContext2& context);
 
   Model::Tree _tree;
-  std::vector<Model::Segment> _segments;
   D2D1_SIZE_F _screenSize;
 
   std::shared_ptr<DX::DeviceResources> _deviceResources;

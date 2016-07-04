@@ -9,20 +9,11 @@ using namespace Tamarak;
 using namespace Tamarak::Model;
 
 static const float PIXELS_PER_METER = 64.f;
-static const float DIRECTION_LENGTH = 16.f;
+static const float DIRECTION_LENGTH = 8.f;
 
 static vector<Segment> segmentsFromBranch(const Branch& branch) {
   vector<Segment> segments = branch.body();
   for (const auto& childBranch : branch.branches()) {
-    auto branchSegments = segmentsFromBranch(childBranch);
-    move(begin(branchSegments), end(branchSegments), back_inserter(segments));
-  }
-  return segments;
-}
-
-static vector<Segment> segmentsFromTree(const Tree& tree) {
-  vector<Segment> segments = tree.trunk().body();
-  for (const auto& childBranch : tree.branches()) {
     auto branchSegments = segmentsFromBranch(childBranch);
     move(begin(branchSegments), end(branchSegments), back_inserter(segments));
   }
@@ -37,9 +28,33 @@ static void scaleSegmentsToScreenSpace(vector<Segment>& segments) {
   }
 }
 
+static void scaleBranchToScreenSpace(Branch& branch);
+static void scaleBranchesToScreenSpace(vector<Branch>& branches) {
+  for (auto& branch : branches) {
+    scaleBranchToScreenSpace(branch);
+  }
+}
+
+static void scaleBranchToScreenSpace(Branch& branch) {
+  scaleSegmentsToScreenSpace(branch.Mutablebody());
+  scaleBranchesToScreenSpace(branch.Mutablebranches());
+}
+
 static void translateSegments(vector<Segment>& segments, const Vector2d& delta) {
   for (auto& segment : segments) {
     segment.translate(delta);
+  }
+}
+
+static void translateBranches(vector<Branch>& branches, const Vector2d& delta);
+static void translateBranch(Branch& branch, const Vector2d& delta) {
+  translateSegments(branch.Mutablebody(), delta);
+  translateBranches(branch.Mutablebranches(), delta);
+}
+
+static void translateBranches(vector<Branch>& branches, const Vector2d& delta) {
+  for (auto& branch : branches) {
+    translateBranch(branch, delta);
   }
 }
 
@@ -62,19 +77,17 @@ void WireFrameTreeRenderer::render() {
   context->BeginDraw();
   context->Clear(D2D1::ColorF(0x38393B));
 
-  drawSegments(*context);
+  drawTrunk(_tree.trunk(), *context);
+  drawBranches(_tree.branches(), *context);
 
   context->EndDraw();
 }
 
-void WireFrameTreeRenderer::drawSegments(ID2D1DeviceContext2& context) {
-  auto width = context.GetSize().width;
-  auto height = context.GetSize().height;
-
+void WireFrameTreeRenderer::drawSegments(const vector<Segment>& segments, ID2D1DeviceContext2& context) {
   Vector2d lastCrossSectionPoint1;
   Vector2d lastCrossSectionPoint2;
   bool hasDrawnFirst = false;
-  for (const auto& segment : _segments) {
+  for (const auto& segment : segments) {
     // draw the direction vector.
     drawVector(segment.position(), segment.position() + segment.direction() * DIRECTION_LENGTH, context,
                *_directionBrush);
@@ -96,20 +109,41 @@ void WireFrameTreeRenderer::drawSegments(ID2D1DeviceContext2& context) {
   }
 }
 
+void WireFrameTreeRenderer::drawBranches(const vector<Branch>& branches, ID2D1DeviceContext2& context) {
+  for (auto& branch : branches) {
+    drawBranch(branch, context);
+  }
+}
+
+void WireFrameTreeRenderer::drawBranch(const Branch& branch, ID2D1DeviceContext2& context) {
+  drawSegments(branch.body(), context);
+  drawBranches(branch.branches(), context);
+}
+
+void WireFrameTreeRenderer::drawTrunk(const Trunk& trunk, ID2D1DeviceContext2& context) {
+  drawSegments(trunk.body(), context);
+}
+
 void WireFrameTreeRenderer::update(const DX::StepTimer& timer) {
   // TODO::JT
 }
 
 void WireFrameTreeRenderer::setTree(const Tree& tree) {
   _tree = tree;
-  _segments = segmentsFromTree(_tree);
-  scaleSegmentsToScreenSpace(_segments);
+  scaleSegmentsToScreenSpace(_tree.Mutabletrunk().Mutablebody());
+  scaleBranchesToScreenSpace(_tree.Mutablebranches());
 }
 
 void Tamarak::WireFrameTreeRenderer::notifyScreenSizeChanged() {
   auto context = _deviceResources->GetD2DDeviceContext();
   auto newScreenSize = context->GetSize();
-  translateSegments(_segments, Vector2d{_screenSize.width / 2.f, _screenSize.height / 3.f * 2.f} * -1.0f);
-  translateSegments(_segments, {newScreenSize.width / 2.f, newScreenSize.height / 3.f * 2.f});
+  static const Vector2d BASE_POS = {0.5f, 0.7f};
+  Vector2d oldPos = Vector2d{BASE_POS.x() * _screenSize.width, BASE_POS.y() * _screenSize.height};
+  Vector2d newPos = {BASE_POS.x() * newScreenSize.width, BASE_POS.y() * newScreenSize.height};
+  Vector2d delta = newPos - oldPos;
+
+  translateSegments(_tree.Mutabletrunk().Mutablebody(), delta);
+  translateBranches(_tree.Mutablebranches(), delta);
+
   _screenSize = newScreenSize;
 }
