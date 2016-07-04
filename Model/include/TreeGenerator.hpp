@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Tamarack {
+namespace Tamarak {
 namespace Model {
 
 class Tree;

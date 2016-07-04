@@ -2,12 +2,6 @@
 
 #include "DirectXPage.xaml.h"
 
-﻿//
-// App.xaml.cpp
-// Implementation of the App class.
-//
-
-
 using namespace Tamarak;
 
 using namespace Platform;

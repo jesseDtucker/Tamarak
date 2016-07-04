@@ -3,12 +3,10 @@
 #include "App.g.h"
 #include "DirectXPage.xaml.h"
 
-﻿//
+//
 // App.xaml.h
 // Declaration of the App class.
 //
-
-
 
 namespace Tamarak {
 /// <summary>

@@ -71,14 +71,14 @@
     <ClCompile Include="TamarakMain.cpp" />
     <ClCompile Include="DirectXPage.xaml.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="TreeRenderer.cpp" />
+    <ClCompile Include="WireFrameTreeRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.xaml.h" />
     <ClInclude Include="TamarakMain.h" />
     <ClInclude Include="DirectXPage.xaml.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="TreeRenderer.hpp" />
+    <ClInclude Include="WireFrameTreeRenderer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">

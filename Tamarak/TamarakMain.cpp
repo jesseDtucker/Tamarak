@@ -16,7 +16,7 @@ TamarakMain::TamarakMain(const std::shared_ptr<DX::DeviceResources>& deviceResou
   _deviceResources->RegisterDeviceNotify(this);
 
   // TODO: Replace this with your app's content initialization.
-  _treeRenderer = make_unique<TreeRenderer>(deviceResources);
+  _treeRenderer = make_unique<WireFrameTreeRenderer>(deviceResources);
 
   // TODO: Change the timer settings if you want something other than the default variable timestep mode.
   // e.g. for 60 FPS fixed timestep update logic, call:

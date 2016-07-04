@@ -2,7 +2,7 @@
 
 #include "Common\DeviceResources.h"
 #include "Common\StepTimer.h"
-#include "TreeRenderer.hpp"
+#include "WireFrameTreeRenderer.hpp"
 
 // Renders Direct2D and 3D content on the screen.
 namespace Tamarak {
@@ -28,7 +28,7 @@ class TamarakMain : public DX::IDeviceNotify {
   // Cached pointer to device resources.
   std::shared_ptr<DX::DeviceResources> _deviceResources;
 
-  std::unique_ptr<TreeRenderer> _treeRenderer;
+  std::unique_ptr<WireFrameTreeRenderer> _treeRenderer;
 
   Windows::Foundation::IAsyncAction ^ _renderLoopWorker;
   Concurrency::critical_section _criticalSection;

@@ -8,27 +8,57 @@
     <Filter Include="proto">
       <UniqueIdentifier>{16e2dad3-5047-480c-98d1-f882968c39f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{34b932d4-3d09-4b18-8bcb-98ee970ef6d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{01865896-5a53-432c-b5c1-cf4544c56b0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="proto\impl\tree.pb.cc">
       <Filter>proto</Filter>
     </ClCompile>
-    <ClCompile Include="TreeGenerator.cpp" />
-    <ClCompile Include="Branch.cpp" />
-    <ClCompile Include="Segment.cpp" />
-    <ClCompile Include="Trunk.cpp" />
-    <ClCompile Include="Vector2d.cpp" />
-    <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="src\Vector2d.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trunk.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TreeGenerator.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tree.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Segment.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Branch.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="proto\impl\tree.pb.h">
       <Filter>proto</Filter>
     </ClInclude>
-    <ClInclude Include="TreeGenerator.hpp" />
-    <ClInclude Include="Branch.hpp" />
-    <ClInclude Include="Segment.hpp" />
-    <ClInclude Include="Trunk.hpp" />
-    <ClInclude Include="Vector2d.hpp" />
-    <ClInclude Include="Tree.hpp" />
+    <ClInclude Include="include\Vector2d.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Trunk.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TreeGenerator.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Tree.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Branch.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Segment.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

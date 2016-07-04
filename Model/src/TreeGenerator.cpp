@@ -5,7 +5,7 @@
 #include "Tree.hpp"
 
 using namespace std;
-using namespace Tamarack::Model;
+using namespace Tamarak::Model;
 
 static Trunk generateTrunk() {
   vector<Segment> trunkBody;

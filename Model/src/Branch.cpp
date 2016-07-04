@@ -1,7 +1,7 @@
 #include "Branch.hpp"
 
 using namespace std;
-using namespace Tamarack::Model;
+using namespace Tamarak::Model;
 
 Branch::Branch(const vector<Segment>& body) : Branch(body, {}) {}
 

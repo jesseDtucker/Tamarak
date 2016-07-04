@@ -2,12 +2,6 @@
 
 #include "DirectXPage.xaml.h"
 
-﻿//
-// DirectXPage.xaml.cpp
-// Implementation of the DirectXPage class.
-//
-
-
 using namespace Tamarak;
 
 using namespace Platform;

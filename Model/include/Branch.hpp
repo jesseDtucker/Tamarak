@@ -4,7 +4,7 @@
 
 #include "Segment.hpp"
 
-namespace Tamarack {
+namespace Tamarak {
 namespace Model {
 class Branch final {
  public:
@@ -13,6 +13,8 @@ class Branch final {
   Branch(const std::vector<Segment>& body, const std::vector<Branch>& branches);
   Branch(const Branch&) = default;
   Branch(Branch&&) = default;
+
+  Branch& operator=(const Branch&) = default;
 
   const std::vector<Segment>& body() const;
   const std::vector<Branch>& branches() const;

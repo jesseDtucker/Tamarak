@@ -27,22 +27,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Branch.cpp" />
+    <ClCompile Include="src\Branch.cpp" />
     <ClCompile Include="proto\impl\tree.pb.cc" />
-    <ClCompile Include="Segment.cpp" />
-    <ClCompile Include="Tree.cpp" />
-    <ClCompile Include="TreeGenerator.cpp" />
-    <ClCompile Include="Trunk.cpp" />
-    <ClCompile Include="Vector2d.cpp" />
+    <ClCompile Include="src\Segment.cpp" />
+    <ClCompile Include="src\Tree.cpp" />
+    <ClCompile Include="src\TreeGenerator.cpp" />
+    <ClCompile Include="src\Trunk.cpp" />
+    <ClCompile Include="src\Vector2d.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Branch.hpp" />
+    <ClInclude Include="include\Branch.hpp" />
     <ClInclude Include="proto\impl\tree.pb.h" />
-    <ClInclude Include="Segment.hpp" />
-    <ClInclude Include="Tree.hpp" />
-    <ClInclude Include="TreeGenerator.hpp" />
-    <ClInclude Include="Trunk.hpp" />
-    <ClInclude Include="Vector2d.hpp" />
+    <ClInclude Include="include\Segment.hpp" />
+    <ClInclude Include="include\Tree.hpp" />
+    <ClInclude Include="include\TreeGenerator.hpp" />
+    <ClInclude Include="include\Trunk.hpp" />
+    <ClInclude Include="include\Vector2d.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{e4418626-adf9-4efb-895d-4bda6161ec5a}</ProjectGuid>
@@ -109,9 +109,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Common.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\Common.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />

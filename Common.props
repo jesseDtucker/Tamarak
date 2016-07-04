@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>$(ProjectDir)include;$(ProjectDir)src;$(SolutionDir)Util\include;$(SolutionDir)boost\;$(SolutionDir)protobuf\src\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)src;$(SolutionDir)Utilities\include;$(SolutionDir)boost\;$(SolutionDir)protobuf\src\;$(IncludePath)</IncludePath>
     <IntDir>$(ProjectDir)$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup>

@@ -2,13 +2,15 @@
 
 #include "Vector2d.hpp"
 
-namespace Tamarack {
+namespace Tamarak {
 namespace Model {
 class Segment final {
  public:
   Segment(const Vector2d& position, const Vector2d& direction, float width);
   Segment(Segment&&) = default;
   Segment(const Segment&) = default;
+
+  Segment& operator=(const Segment&) = default;
 
   const Vector2d& position() const;
   const Vector2d& direction() const;

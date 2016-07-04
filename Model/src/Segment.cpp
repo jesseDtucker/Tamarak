@@ -1,6 +1,6 @@
 #include "Segment.hpp"
 
-using namespace Tamarack::Model;
+using namespace Tamarak::Model;
 
 Segment::Segment(const Vector2d& position, const Vector2d& direction, float width)
     : _position(position), _direction(direction), _width(width) {}

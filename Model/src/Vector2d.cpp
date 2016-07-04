@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-using namespace Tamarack::Model;
+using namespace Tamarak::Model;
 
 Vector2d::Vector2d() : Vector2d(0.0f, 0.0f) {}
 

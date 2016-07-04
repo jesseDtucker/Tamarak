@@ -4,7 +4,7 @@
 #include "Common\DeviceResources.h"
 #include "TamarakMain.h"
 
-﻿//
+//
 // DirectXPage.xaml.h
 // Declaration of the DirectXPage class.
 //

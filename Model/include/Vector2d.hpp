@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Tamarack {
+namespace Tamarak {
 namespace Model {
 class Vector2d final {
  public:
@@ -8,6 +8,8 @@ class Vector2d final {
   Vector2d(float x, float y);
   Vector2d(const Vector2d&) = default;
   Vector2d(Vector2d&&) = default;
+
+  Vector2d& operator=(const Vector2d&) = default;
 
   float x() const;
   float y() const;

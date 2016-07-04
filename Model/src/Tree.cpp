@@ -1,7 +1,7 @@
 #include "Tree.hpp"
 
 using namespace std;
-using namespace Tamarack::Model;
+using namespace Tamarak::Model;
 
 Tree::Tree(const Trunk& trunk, const vector<Branch>& branches) : _trunk(trunk), _branches(branches) {}
 

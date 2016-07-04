@@ -4,7 +4,7 @@
 
 #include "Segment.hpp"
 
-namespace Tamarack {
+namespace Tamarak {
 namespace Model {
 class Trunk final {
  public:
@@ -12,6 +12,8 @@ class Trunk final {
   Trunk(const std::vector<Segment>& body);
   Trunk(const Trunk&) = default;
   Trunk(Trunk&&) = default;
+
+  Trunk& operator=(const Trunk&) = default;
 
   const std::vector<Segment> body() const;
 
