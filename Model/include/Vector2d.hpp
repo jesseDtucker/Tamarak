@@ -27,6 +27,9 @@ class Vector2d final {
   Vector2d& operator*=(const float);
   Vector2d& operator/=(const float);
 
+  bool operator==(const Vector2d&);
+  bool operator!=(const Vector2d&);
+
  private:
   float _x;
   float _y;

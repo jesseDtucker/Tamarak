@@ -2,6 +2,7 @@
 
 #include "Common\DeviceResources.h"
 #include "Common\StepTimer.h"
+#include "TreeGenerator.hpp"
 #include "WireFrameTreeRenderer.hpp"
 
 // Renders Direct2D and 3D content on the screen.
@@ -38,5 +39,7 @@ class TamarakMain : public DX::IDeviceNotify {
 
   // Track current input pointer position.
   float _pointerLocationX;
+
+  Model::TreeGenerator _treeGenerator;
 };
 }

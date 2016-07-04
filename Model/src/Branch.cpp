@@ -15,3 +15,7 @@ void Branch::translate(const Vector2d& delta) {
     branch.translate(delta);
   }
 }
+
+const vector<Segment>& Branch::body() const { return _body; }
+
+const vector<Branch>& Branch::branches() const { return _branches; }

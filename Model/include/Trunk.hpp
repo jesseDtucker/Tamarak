@@ -15,7 +15,7 @@ class Trunk final {
 
   Trunk& operator=(const Trunk&) = default;
 
-  const std::vector<Segment> body() const;
+  const std::vector<Segment>& body() const;
 
  private:
   std::vector<Segment> _body;

@@ -16,8 +16,8 @@ class Tree final {
 
   Tree& operator=(const Tree&) = default;
 
-  const Trunk trunk() const;
-  const std::vector<Branch> branches() const;
+  const Trunk& trunk() const;
+  const std::vector<Branch>& branches() const;
 
  private:
   Trunk _trunk;

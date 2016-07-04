@@ -4,10 +4,11 @@
 #include "TamarakMain.h"
 
 using namespace std;
-using namespace Tamarak;
 using namespace Windows::Foundation;
 using namespace Windows::System::Threading;
 using namespace Concurrency;
+using namespace Tamarak;
+using namespace Tamarak::Model;
 
 // Loads and initializes application assets when the application is loaded.
 TamarakMain::TamarakMain(const std::shared_ptr<DX::DeviceResources>& deviceResources)
@@ -17,6 +18,8 @@ TamarakMain::TamarakMain(const std::shared_ptr<DX::DeviceResources>& deviceResou
 
   // TODO: Replace this with your app's content initialization.
   _treeRenderer = make_unique<WireFrameTreeRenderer>(deviceResources);
+  Tree tree = _treeGenerator.generateTree();
+  _treeRenderer->setTree(tree);
 
   // TODO: Change the timer settings if you want something other than the default variable timestep mode.
   // e.g. for 60 FPS fixed timestep update logic, call:
@@ -32,9 +35,7 @@ TamarakMain::~TamarakMain() {
 }
 
 // Updates application state when the window size changes (e.g. device orientation change)
-void TamarakMain::CreateWindowSizeDependentResources() {
-  // TODO::JT
-}
+void TamarakMain::CreateWindowSizeDependentResources() { _treeRenderer->notifyScreenSizeChanged(); }
 
 void TamarakMain::StartRenderLoop() {
   // If the animation render loop is already running then do not start another thread.

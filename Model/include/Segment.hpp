@@ -1,5 +1,6 @@
 #pragma once
 
+#include "PropertyHelper.hpp"
 #include "Vector2d.hpp"
 
 namespace Tamarak {
@@ -12,16 +13,11 @@ class Segment final {
 
   Segment& operator=(const Segment&) = default;
 
-  const Vector2d& position() const;
-  const Vector2d& direction() const;
-  float width() const;
+  PROP_SET_AND_GET(Vector2d, position);
+  PROP_SET_AND_GET(Vector2d, direction);
+  PROP_SET_AND_GET(float, width);
 
   void translate(const Vector2d& delta);
-
- private:
-  Vector2d _position;
-  Vector2d _direction;
-  float _width;
 };
 }
 }
