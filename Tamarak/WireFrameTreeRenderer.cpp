@@ -8,7 +8,7 @@ using namespace std;
 using namespace Tamarak;
 using namespace Tamarak::Model;
 
-static const float PIXELS_PER_METER = 64.f;
+static const float PIXELS_PER_METER = 32.f;
 static const float DIRECTION_LENGTH = 8.f;
 
 static vector<Segment> segmentsFromBranch(const Branch& branch) {
@@ -132,7 +132,7 @@ void WireFrameTreeRenderer::update(const DX::StepTimer& timer) {
 }
 
 static Vector2d treePos(D2D1_SIZE_F screenSize) {
-  static const Vector2d BASE_POS = {0.5f, 0.9f};
+  static const Vector2d BASE_POS = {0.5f, 0.95f};
   return Vector2d{BASE_POS.x() * screenSize.width, BASE_POS.y() * screenSize.height};
 }
 

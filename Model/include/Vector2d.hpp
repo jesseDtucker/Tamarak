@@ -25,7 +25,7 @@ class Vector2d final {
   Vector2d operator*(const float) const;
   Vector2d operator/(const float) const;
 
-  void rotate(float degrees);
+  void rotate(float radians);
 
   Vector2d& operator+=(const Vector2d&);
   Vector2d& operator-=(const Vector2d&);
