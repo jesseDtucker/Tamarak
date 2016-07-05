@@ -17,10 +17,15 @@ class Vector2d final {
   float magnitude() const;
   Vector2d unitVector() const;
 
+  float angleBetween(const Vector2d&) const;
+  float dotProduct(const Vector2d&) const;
+
   Vector2d operator+(const Vector2d&) const;
   Vector2d operator-(const Vector2d&) const;
   Vector2d operator*(const float) const;
   Vector2d operator/(const float) const;
+
+  void rotate(float degrees);
 
   Vector2d& operator+=(const Vector2d&);
   Vector2d& operator-=(const Vector2d&);

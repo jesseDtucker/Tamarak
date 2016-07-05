@@ -166,3 +166,7 @@ void DirectXPage::OnSwapChainPanelSizeChanged(Object ^ sender, SizeChangedEventA
   m_deviceResources->SetLogicalSize(e->NewSize);
   m_main->CreateWindowSizeDependentResources();
 }
+
+void Tamarak::DirectXPage::Button_Click(Platform::Object ^ sender, Windows::UI::Xaml::RoutedEventArgs ^ e) {
+  m_main->createNewTree();
+}

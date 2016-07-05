@@ -2,6 +2,7 @@
 
 #include <D2d1.h>
 #include <memory>
+#include <mutex>
 
 #include "DeviceResources.h"
 #include "Tree.hpp"
@@ -23,7 +24,10 @@ class WireFrameTreeRenderer final {
   void drawBranch(const Model::Branch& branch, ID2D1DeviceContext2& context);
   void drawTrunk(const Model::Trunk& trunk, ID2D1DeviceContext2& context);
 
+  void placeTree();
+
   Model::Tree _tree;
+  std::mutex _syncLock;
   D2D1_SIZE_F _screenSize;
 
   std::shared_ptr<DX::DeviceResources> _deviceResources;

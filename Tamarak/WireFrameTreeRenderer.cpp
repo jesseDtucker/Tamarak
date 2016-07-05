@@ -77,8 +77,11 @@ void WireFrameTreeRenderer::render() {
   context->BeginDraw();
   context->Clear(D2D1::ColorF(0x38393B));
 
-  drawTrunk(_tree.trunk(), *context);
-  drawBranches(_tree.branches(), *context);
+  {
+    lock_guard<decltype(_syncLock)> lock(_syncLock);
+    drawTrunk(_tree.trunk(), *context);
+    drawBranches(_tree.branches(), *context);
+  }
 
   context->EndDraw();
 }
@@ -128,18 +131,34 @@ void WireFrameTreeRenderer::update(const DX::StepTimer& timer) {
   // TODO::JT
 }
 
-void WireFrameTreeRenderer::setTree(const Tree& tree) {
-  _tree = tree;
-  scaleSegmentsToScreenSpace(_tree.Mutabletrunk().Mutablebody());
-  scaleBranchesToScreenSpace(_tree.Mutablebranches());
+static Vector2d treePos(D2D1_SIZE_F screenSize) {
+  static const Vector2d BASE_POS = {0.5f, 0.9f};
+  return Vector2d{BASE_POS.x() * screenSize.width, BASE_POS.y() * screenSize.height};
 }
 
-void Tamarak::WireFrameTreeRenderer::notifyScreenSizeChanged() {
+void WireFrameTreeRenderer::setTree(const Tree& tree) {
+  lock_guard<decltype(_syncLock)> lock(_syncLock);
+  _tree = tree;
+
+  scaleSegmentsToScreenSpace(_tree.Mutabletrunk().Mutablebody());
+  scaleBranchesToScreenSpace(_tree.Mutablebranches());
+
+  Vector2d pos = treePos(_screenSize);
+  translateSegments(_tree.Mutabletrunk().Mutablebody(), pos);
+  translateBranches(_tree.Mutablebranches(), pos);
+}
+
+void WireFrameTreeRenderer::notifyScreenSizeChanged() {
+  lock_guard<decltype(_syncLock)> lock(_syncLock);
   auto context = _deviceResources->GetD2DDeviceContext();
   auto newScreenSize = context->GetSize();
-  static const Vector2d BASE_POS = {0.5f, 0.7f};
-  Vector2d oldPos = Vector2d{BASE_POS.x() * _screenSize.width, BASE_POS.y() * _screenSize.height};
-  Vector2d newPos = {BASE_POS.x() * newScreenSize.width, BASE_POS.y() * newScreenSize.height};
+
+  Vector2d oldPos;
+  if (_tree.trunk().body().size() > 0) {
+    oldPos = begin(_tree.trunk().body())->position();
+  }
+
+  Vector2d newPos = treePos(newScreenSize);
   Vector2d delta = newPos - oldPos;
 
   translateSegments(_tree.Mutabletrunk().Mutablebody(), delta);

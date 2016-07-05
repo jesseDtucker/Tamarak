@@ -21,6 +21,8 @@ class TamarakMain : public DX::IDeviceNotify {
   virtual void OnDeviceLost();
   virtual void OnDeviceRestored();
 
+  void createNewTree();
+
  private:
   void ProcessInput();
   void Update();

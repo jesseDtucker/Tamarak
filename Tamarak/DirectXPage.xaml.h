@@ -1,16 +1,13 @@
 #pragma once
 
-#include "DirectXPage.g.h"
 #include "Common\DeviceResources.h"
+#include "DirectXPage.g.h"
 #include "TamarakMain.h"
 
 //
 // DirectXPage.xaml.h
 // Declaration of the DirectXPage class.
 //
-
-
-
 
 namespace Tamarak {
 /// <summary>
@@ -56,5 +53,6 @@ ref class DirectXPage sealed {
   std::shared_ptr<DX::DeviceResources> m_deviceResources;
   std::unique_ptr<TamarakMain> m_main;
   bool m_windowVisible;
+  void Button_Click(Platform::Object ^ sender, Windows::UI::Xaml::RoutedEventArgs ^ e);
 };
 }

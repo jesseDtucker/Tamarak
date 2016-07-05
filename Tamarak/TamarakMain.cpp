@@ -112,3 +112,8 @@ void TamarakMain::OnDeviceRestored() {
   // TODO::JT
   CreateWindowSizeDependentResources();
 }
+
+void Tamarak::TamarakMain::createNewTree() {
+  Tree tree = _treeGenerator.generateTree();
+  _treeRenderer->setTree(tree);
+}
