@@ -56,12 +56,7 @@ bool Tamarak::Model::Vector2d::operator==(const Vector2d& other) const { return 
 bool Tamarak::Model::Vector2d::operator!=(const Vector2d& other) const { return !(*this == other); }
 
 float Tamarak::Model::Vector2d::angleBetween(const Vector2d& other) const {
-  // auto test = atan2(_y - other._y, _x - other._x);
-  // auto test2 = atan2(_y - other._y, _x - other._x);
-  // auto test3 = acos(this->dotProduct(other));
   return atan2(other._y, other._x) - atan2(_y, _x);
-  // return acos(this->dotProduct(other));
-  // return atan2(other._y - _y, other._x - _x);
 }
 
 float Tamarak::Model::Vector2d::dotProduct(const Vector2d& other) const { return _x * other._x + _y * other._y; }
