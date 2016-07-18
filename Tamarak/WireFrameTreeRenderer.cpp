@@ -3,12 +3,12 @@
 #include "WireFrameTreeRenderer.hpp"
 
 #include "Arc_Assert.hpp"
+#include "TreePlacer.hpp"
 
 using namespace std;
 using namespace Tamarak;
 using namespace Tamarak::Model;
 
-static const float PIXELS_PER_METER = 32.f;
 static const float DIRECTION_LENGTH = 8.f;
 
 static vector<Segment> segmentsFromBranch(const Branch& branch) {
@@ -18,44 +18,6 @@ static vector<Segment> segmentsFromBranch(const Branch& branch) {
     move(begin(branchSegments), end(branchSegments), back_inserter(segments));
   }
   return segments;
-}
-
-static void scaleSegmentsToScreenSpace(vector<Segment>& segments) {
-  for (auto& segment : segments) {
-    segment.Setwidth(segment.width() * PIXELS_PER_METER);
-    segment.Setposition(segment.position() * PIXELS_PER_METER * -1.0f);
-    segment.Setdirection(segment.direction() * -1.0f);
-  }
-}
-
-static void scaleBranchToScreenSpace(Branch& branch);
-static void scaleBranchesToScreenSpace(vector<Branch>& branches) {
-  for (auto& branch : branches) {
-    scaleBranchToScreenSpace(branch);
-  }
-}
-
-static void scaleBranchToScreenSpace(Branch& branch) {
-  scaleSegmentsToScreenSpace(branch.Mutablebody());
-  scaleBranchesToScreenSpace(branch.Mutablebranches());
-}
-
-static void translateSegments(vector<Segment>& segments, const Vector2d& delta) {
-  for (auto& segment : segments) {
-    segment.translate(delta);
-  }
-}
-
-static void translateBranches(vector<Branch>& branches, const Vector2d& delta);
-static void translateBranch(Branch& branch, const Vector2d& delta) {
-  translateSegments(branch.Mutablebody(), delta);
-  translateBranches(branch.Mutablebranches(), delta);
-}
-
-static void translateBranches(vector<Branch>& branches, const Vector2d& delta) {
-  for (auto& branch : branches) {
-    translateBranch(branch, delta);
-  }
 }
 
 static void drawVector(const Vector2d& start, const Vector2d& end, ID2D1DeviceContext2& context, ID2D1Brush& brush) {
@@ -140,29 +102,16 @@ void WireFrameTreeRenderer::setTree(const Tree& tree) {
   lock_guard<decltype(_syncLock)> lock(_syncLock);
   _tree = tree;
 
-  scaleSegmentsToScreenSpace(_tree.Mutabletrunk().Mutablebody());
-  scaleBranchesToScreenSpace(_tree.Mutablebranches());
+  auto context = _deviceResources->GetD2DDeviceContext();
+  auto screenSize = context->GetSize();
 
-  Vector2d pos = treePos(_screenSize);
-  translateSegments(_tree.Mutabletrunk().Mutablebody(), pos);
-  translateBranches(_tree.Mutablebranches(), pos);
+  placeTree(_tree, screenSize, true);
 }
 
 void WireFrameTreeRenderer::notifyScreenSizeChanged() {
   lock_guard<decltype(_syncLock)> lock(_syncLock);
   auto context = _deviceResources->GetD2DDeviceContext();
-  auto newScreenSize = context->GetSize();
+  auto screenSize = context->GetSize();
 
-  Vector2d oldPos;
-  if (_tree.trunk().body().size() > 0) {
-    oldPos = begin(_tree.trunk().body())->position();
-  }
-
-  Vector2d newPos = treePos(newScreenSize);
-  Vector2d delta = newPos - oldPos;
-
-  translateSegments(_tree.Mutabletrunk().Mutablebody(), delta);
-  translateBranches(_tree.Mutablebranches(), delta);
-
-  _screenSize = newScreenSize;
+  placeTree(_tree, screenSize);
 }
