@@ -36,12 +36,8 @@ WireFrameTreeRenderer::WireFrameTreeRenderer(const shared_ptr<DX::DeviceResource
 
 void WireFrameTreeRenderer::render() {
   auto context = _deviceResources->GetD2DDeviceContext();
-
-  {
-    lock_guard<decltype(_syncLock)> lock(_syncLock);
-    drawTrunk(_tree.trunk(), *context);
-    drawBranches(_tree.branches(), *context);
-  }
+  drawTrunk(_tree.trunk(), *context);
+  drawBranches(_tree.branches(), *context);
 }
 
 void WireFrameTreeRenderer::drawSegments(const vector<Segment>& segments, ID2D1DeviceContext2& context) {
@@ -95,17 +91,16 @@ static Vector2d treePos(D2D1_SIZE_F screenSize) {
 }
 
 void WireFrameTreeRenderer::setTree(const Tree& tree) {
-  lock_guard<decltype(_syncLock)> lock(_syncLock);
   _tree = tree;
 
   auto context = _deviceResources->GetD2DDeviceContext();
   auto screenSize = context->GetSize();
 
   placeTree(_tree, screenSize, true);
+  int i = 0;
 }
 
 void WireFrameTreeRenderer::notifyScreenSizeChanged() {
-  lock_guard<decltype(_syncLock)> lock(_syncLock);
   auto context = _deviceResources->GetD2DDeviceContext();
   auto screenSize = context->GetSize();
 

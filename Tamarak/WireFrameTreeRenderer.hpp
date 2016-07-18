@@ -25,7 +25,6 @@ class WireFrameTreeRenderer final {
   void drawTrunk(const Model::Trunk& trunk, ID2D1DeviceContext2& context);
 
   Model::Tree _tree;
-  std::mutex _syncLock;
 
   std::shared_ptr<DX::DeviceResources> _deviceResources;
   ID2D1SolidColorBrush* _directionBrush;

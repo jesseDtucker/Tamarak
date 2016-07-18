@@ -236,6 +236,6 @@ static Branch straightBranch(int length, const Vector2d& direction) {
 Tree TreeGenerator::generateTree() {
   auto trunk = generateWobblyTrunk();
   const auto& trunkEnd = *rbegin(trunk.body());
-  auto branches = generateBranches(trunkEnd.position(), trunkEnd.width(), 5);
+  auto branches = generateBranches(trunkEnd.position(), trunkEnd.width(), 2);
   return {trunk, branches};
 }

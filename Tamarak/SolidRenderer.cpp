@@ -33,7 +33,7 @@ static vector<D2D1_POINT_2F> getPoints(const vector<Segment>& body) {
   return points;
 }
 
-static unique_ptr<ID2D1PathGeometry> createGeometry(const vector<Segment>& body, ID2D1Factory* factory) {
+static pathPtr createGeometry(const vector<Segment>& body, ID2D1Factory* factory) {
   ARC_ASSERT(body.size() > 0);
   ARC_ASSERT(factory != nullptr);
   ID2D1PathGeometry* geometry = nullptr;
@@ -50,18 +50,20 @@ static unique_ptr<ID2D1PathGeometry> createGeometry(const vector<Segment>& body,
   hr = sink->Close();
   ARC_ASSERT(SUCCEEDED(hr));
 
-  return unique_ptr<ID2D1PathGeometry>{ geometry };
+  SafeRelease(&sink);
+
+  return pathPtr{ geometry };
 }
 
-static void createGeometry(const vector<Branch> branches, ID2D1Factory *factory, vector<unique_ptr<ID2D1PathGeometry>>& geometry) {
+static void createGeometry(const vector<Branch> branches, ID2D1Factory *factory, vector<pathPtr>& geometry) {
   for (const auto& branch : branches) {
     geometry.push_back(createGeometry(branch.body(), factory));
     createGeometry(branch.branches(), factory, geometry);
   }
 }
 
-static vector<unique_ptr<ID2D1PathGeometry>> createGeometry(const Tree& tree, ID2D1Factory *factory) {
-  vector<unique_ptr<ID2D1PathGeometry>> geometry;
+static vector<pathPtr> createGeometry(const Tree& tree, ID2D1Factory *factory) {
+  vector<pathPtr> geometry;
 
   geometry.push_back(createGeometry(tree.trunk().body(), factory));
   createGeometry(tree.branches(), factory, geometry);
@@ -92,25 +94,20 @@ void SolidRenderer::update(const DX::StepTimer& timer)
 
 void SolidRenderer::setTree(const Model::Tree& tree)
 {
-  lock_guard<decltype(_syncLock)> lock(_syncLock);
   _tree = tree;
   auto context = _deviceResources->GetD2DDeviceContext();
   auto screenSize = context->GetSize();
 
   placeTree(_tree, screenSize, true);
-  //_geometry = createGeometry(tree, _deviceResources->GetD2DFactory());
+  _geometry = createGeometry(_tree, _deviceResources->GetD2DFactory());
 }
 
 void SolidRenderer::notifyScreenSizeChanged()
 {
-  lock_guard<decltype(_syncLock)> lock(_syncLock);
   auto context = _deviceResources->GetD2DDeviceContext();
   auto screenSize = context->GetSize();
 
   placeTree(_tree, screenSize);
-  if (_geometry.size() == 0) {
-    _geometry = createGeometry(_tree, _deviceResources->GetD2DFactory());
-  }
-
+  _geometry = createGeometry(_tree, _deviceResources->GetD2DFactory());
 }
 

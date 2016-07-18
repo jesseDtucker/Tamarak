@@ -6,7 +6,10 @@
 #include <vector>
 
 #include "DeviceResources.h"
+#include "RenderUtils.hpp"
 #include "Tree.hpp"
+
+typedef std::unique_ptr<ID2D1PathGeometry, comDeleter<ID2D1PathGeometry>> pathPtr;
 
 namespace Tamarak {
   class SolidRenderer final {
@@ -22,8 +25,7 @@ namespace Tamarak {
   private:
 
     Model::Tree _tree;
-    std::vector<std::unique_ptr<ID2D1PathGeometry>> _geometry;
-    std::mutex _syncLock;
+    std::vector<pathPtr> _geometry;
 
     std::shared_ptr<DX::DeviceResources> _deviceResources;
     ID2D1SolidColorBrush* _brownBrush;

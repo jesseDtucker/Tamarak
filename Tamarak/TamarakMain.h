@@ -32,6 +32,7 @@ class TamarakMain : public DX::IDeviceNotify {
   // Cached pointer to device resources.
   std::shared_ptr<DX::DeviceResources> _deviceResources;
 
+  std::mutex _syncLock;
   std::unique_ptr<WireFrameTreeRenderer> _wireFrameRenderer;
   std::unique_ptr<SolidRenderer> _solidRenderer;
 

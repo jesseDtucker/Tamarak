@@ -84,6 +84,8 @@ bool TamarakMain::Render() {
     return false;
   }
 
+  lock_guard<decltype(_syncLock)> lock(_syncLock);
+
   auto context = _deviceResources->GetD3DDeviceContext();
 
   // Reset the viewport to target the whole screen.
@@ -123,6 +125,7 @@ void TamarakMain::OnDeviceRestored() {
 }
 
 void Tamarak::TamarakMain::createNewTree() {
+  lock_guard<decltype(_syncLock)> lock(_syncLock);
   Tree tree = _treeGenerator.generateTree();
   _wireFrameRenderer->setTree(tree);
   _solidRenderer->setTree(tree);

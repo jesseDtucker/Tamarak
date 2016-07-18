@@ -11,7 +11,7 @@ using namespace std;
 using namespace Tamarak;
 using namespace Tamarak::Model;
 
-static const float PIXELS_PER_METER = 32.f;
+static const float PIXELS_PER_METER = 48.f;
 
 static void scaleSegmentsToScreenSpace(vector<Segment>& segments) {
   for (auto& segment : segments) {
