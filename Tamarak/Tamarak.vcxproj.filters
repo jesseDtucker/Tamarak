@@ -73,7 +73,7 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="WireFrameTreeRenderer.cpp" />
     <ClCompile Include="SolidRenderer.cpp" />
-    <ClCompile Include="TreePlacer.cpp" />
+    <ClCompile Include="RenderUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.xaml.h" />
@@ -82,7 +82,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="WireFrameTreeRenderer.hpp" />
     <ClInclude Include="SolidRenderer.hpp" />
-    <ClInclude Include="TreePlacer.hpp" />
+    <ClInclude Include="RenderUtils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\StoreLogo.png">

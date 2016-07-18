@@ -2,6 +2,7 @@
 
 #include "Common\DeviceResources.h"
 #include "Common\StepTimer.h"
+#include "SolidRenderer.hpp"
 #include "TreeGenerator.hpp"
 #include "WireFrameTreeRenderer.hpp"
 
@@ -31,7 +32,8 @@ class TamarakMain : public DX::IDeviceNotify {
   // Cached pointer to device resources.
   std::shared_ptr<DX::DeviceResources> _deviceResources;
 
-  std::unique_ptr<WireFrameTreeRenderer> _treeRenderer;
+  std::unique_ptr<WireFrameTreeRenderer> _wireFrameRenderer;
+  std::unique_ptr<SolidRenderer> _solidRenderer;
 
   Windows::Foundation::IAsyncAction ^ _renderLoopWorker;
   Concurrency::critical_section _criticalSection;

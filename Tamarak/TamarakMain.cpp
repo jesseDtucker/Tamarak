@@ -17,9 +17,11 @@ TamarakMain::TamarakMain(const std::shared_ptr<DX::DeviceResources>& deviceResou
   _deviceResources->RegisterDeviceNotify(this);
 
   // TODO: Replace this with your app's content initialization.
-  _treeRenderer = make_unique<WireFrameTreeRenderer>(deviceResources);
+  _wireFrameRenderer = make_unique<WireFrameTreeRenderer>(deviceResources);
+  _solidRenderer = make_unique<SolidRenderer>(deviceResources);
   Tree tree = _treeGenerator.generateTree();
-  _treeRenderer->setTree(tree);
+  _wireFrameRenderer->setTree(tree);
+  _solidRenderer->setTree(tree);
 
   // TODO: Change the timer settings if you want something other than the default variable timestep mode.
   // e.g. for 60 FPS fixed timestep update logic, call:
@@ -35,7 +37,7 @@ TamarakMain::~TamarakMain() {
 }
 
 // Updates application state when the window size changes (e.g. device orientation change)
-void TamarakMain::CreateWindowSizeDependentResources() { _treeRenderer->notifyScreenSizeChanged(); }
+void TamarakMain::CreateWindowSizeDependentResources() { _wireFrameRenderer->notifyScreenSizeChanged(); _solidRenderer->notifyScreenSizeChanged(); }
 
 void TamarakMain::StartRenderLoop() {
   // If the animation render loop is already running then do not start another thread.
@@ -66,7 +68,7 @@ void TamarakMain::Update() {
   ProcessInput();
 
   // Update scene objects.
-  _timer.Tick([&]() { _treeRenderer->update(_timer); });
+  _timer.Tick([&]() { _wireFrameRenderer->update(_timer); _solidRenderer->update(_timer); });
 }
 
 // Process all input from the user before updating game state
@@ -97,7 +99,14 @@ bool TamarakMain::Render() {
   context->ClearDepthStencilView(_deviceResources->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f,
                                  0);
 
-  _treeRenderer->render();
+  auto context2d = _deviceResources->GetD2DDeviceContext();
+  context2d->BeginDraw();
+  context2d->Clear(D2D1::ColorF(0x38393B));
+
+  //_wireFrameRenderer->render();
+  _solidRenderer->render();
+
+  context2d->EndDraw();
 
   return true;
 }
@@ -115,5 +124,6 @@ void TamarakMain::OnDeviceRestored() {
 
 void Tamarak::TamarakMain::createNewTree() {
   Tree tree = _treeGenerator.generateTree();
-  _treeRenderer->setTree(tree);
+  _wireFrameRenderer->setTree(tree);
+  _solidRenderer->setTree(tree);
 }

@@ -3,7 +3,7 @@
 #include "WireFrameTreeRenderer.hpp"
 
 #include "Arc_Assert.hpp"
-#include "TreePlacer.hpp"
+#include "RenderUtils.hpp"
 
 using namespace std;
 using namespace Tamarak;
@@ -36,16 +36,12 @@ WireFrameTreeRenderer::WireFrameTreeRenderer(const shared_ptr<DX::DeviceResource
 
 void WireFrameTreeRenderer::render() {
   auto context = _deviceResources->GetD2DDeviceContext();
-  context->BeginDraw();
-  context->Clear(D2D1::ColorF(0x38393B));
 
   {
     lock_guard<decltype(_syncLock)> lock(_syncLock);
     drawTrunk(_tree.trunk(), *context);
     drawBranches(_tree.branches(), *context);
   }
-
-  context->EndDraw();
 }
 
 void WireFrameTreeRenderer::drawSegments(const vector<Segment>& segments, ID2D1DeviceContext2& context) {
