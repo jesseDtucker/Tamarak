@@ -29,6 +29,7 @@
   <ItemGroup>
     <ClCompile Include="src\Branch.cpp" />
     <ClCompile Include="proto\impl\tree.pb.cc" />
+    <ClCompile Include="src\Leaf.cpp" />
     <ClCompile Include="src\Segment.cpp" />
     <ClCompile Include="src\Tree.cpp" />
     <ClCompile Include="src\TreeGenerator.cpp" />
@@ -37,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Branch.hpp" />
+    <ClInclude Include="include\Leaf.hpp" />
     <ClInclude Include="proto\impl\tree.pb.h" />
     <ClInclude Include="include\Segment.hpp" />
     <ClInclude Include="include\Tree.hpp" />

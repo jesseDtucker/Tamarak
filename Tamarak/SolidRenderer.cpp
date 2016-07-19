@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <random>
 
 #include "Arc_Assert.hpp"
 #include "Segment.hpp"
@@ -11,6 +12,8 @@
 using namespace std;
 using namespace Tamarak;
 using namespace Tamarak::Model;
+
+static const float PI = 3.14159f;
 
 static vector<D2D1_POINT_2F> getPoints(const vector<Segment>& body) {
   vector<D2D1_POINT_2F> points;
@@ -71,11 +74,56 @@ static vector<pathPtr> createGeometry(const Tree& tree, ID2D1Factory *factory) {
   return geometry;
 }
 
+static void createLeaves(const vector<Branch>& branches, vector<LeafEllipse>& leaves) {
+  for (const auto& branch : branches) {
+    transform(begin(branch.leaves()), end(branch.leaves()), back_inserter(leaves), [](const Leaf& leaf) {
+      const float LEAF_SIZE = 8.f;
+      D2D1_ELLIPSE ellipse;
+      auto pos = leaf.position() + leaf.direction() * LEAF_SIZE;
+      ellipse.point = { pos.x(), pos.y() };
+      ellipse.radiusX = LEAF_SIZE/2.f;
+      ellipse.radiusY = LEAF_SIZE;
+      return LeafEllipse{ leaf.direction(), ellipse };
+    });
+    createLeaves(branch.branches(), leaves);
+  }
+}
+
+static vector<LeafEllipse> createLeaves(const Tree& tree) {
+  vector<LeafEllipse> leaves;
+  createLeaves(tree.branches(), leaves);
+  return leaves;
+}
+
 SolidRenderer::SolidRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources)
   : _deviceResources(deviceResources)
+  , _rand(random_device()())
 {
-  auto hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0xB27D67), &_brownBrush);
+  ID2D1SolidColorBrush* brownBrush;
+  ID2D1SolidColorBrush* lb1;
+  ID2D1SolidColorBrush* lb2;
+  ID2D1SolidColorBrush* lb3;
+  ID2D1SolidColorBrush* lb4;
+  ID2D1SolidColorBrush* lb5;
+  auto hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0xB27D67), &brownBrush);
   ARC_ASSERT(SUCCEEDED(hr));
+  hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0x083B02), &lb1);
+  ARC_ASSERT(SUCCEEDED(hr));
+  hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0x055432), &lb2);
+  ARC_ASSERT(SUCCEEDED(hr));
+  hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0x00541C), &lb3);
+  ARC_ASSERT(SUCCEEDED(hr));
+  hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0x005909), &lb4);
+  ARC_ASSERT(SUCCEEDED(hr));
+  hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0x205407), &lb5);
+  ARC_ASSERT(SUCCEEDED(hr));
+
+  _brownBrush = SolidColorBrushPtr{ brownBrush };
+  _leafBrushOne = SolidColorBrushPtr{ lb1 };
+  _leafBrushTwo = SolidColorBrushPtr{ lb2 };
+  _leafBrushThree = SolidColorBrushPtr{ lb3 };
+  _leafBrushFour = SolidColorBrushPtr{ lb4 };
+  _leafBrushFive = SolidColorBrushPtr{ lb5 };
 }
 
 void SolidRenderer::render()
@@ -83,8 +131,25 @@ void SolidRenderer::render()
   auto context = _deviceResources->GetD2DDeviceContext();
 
   for (const auto& geo : _geometry) {
-    context->FillGeometry(geo.get(), _brownBrush);
+    context->FillGeometry(geo.get(), _brownBrush.get());
   }
+  static const Vector2d UP{ 0.f, 1.f };
+  vector<ID2D1SolidColorBrush*> leafBrushes { _leafBrushOne.get(), _leafBrushTwo.get(), _leafBrushThree.get(), _leafBrushFour.get(), _leafBrushFive.get() };
+  int nextBrush = 0;
+  for (auto& leaf : _leaves) {
+    auto angle = leaf.direction.angleBetween(UP);
+    auto scale = D2D1::Matrix3x2F::Scale(1.2f, 1.2f, leaf.ellipse.point);
+    auto angleDegrees = angle * 360.f / 2.f / PI;
+    auto rot = D2D1::Matrix3x2F::Rotation(angleDegrees, leaf.ellipse.point);
+    context->SetTransform(rot * scale);
+    context->FillEllipse(leaf.ellipse, leafBrushes[nextBrush++ % leafBrushes.size()]);
+    context->SetTransform(rot);
+    context->FillEllipse(leaf.ellipse, leafBrushes[nextBrush++ % leafBrushes.size()]);
+    if (nextBrush > leafBrushes.size() - 1) {
+      nextBrush = 0;
+    }
+  }
+  context->SetTransform(D2D1::Matrix3x2F::Identity());
 }
 
 void SolidRenderer::update(const DX::StepTimer& timer)
@@ -100,6 +165,7 @@ void SolidRenderer::setTree(const Model::Tree& tree)
 
   placeTree(_tree, screenSize, true);
   _geometry = createGeometry(_tree, _deviceResources->GetD2DFactory());
+  _leaves = createLeaves(_tree);
 }
 
 void SolidRenderer::notifyScreenSizeChanged()
@@ -109,5 +175,10 @@ void SolidRenderer::notifyScreenSizeChanged()
 
   placeTree(_tree, screenSize);
   _geometry = createGeometry(_tree, _deviceResources->GetD2DFactory());
+  _leaves = createLeaves(_tree);
 }
 
+Tamarak::LeafEllipse::LeafEllipse(Vector2d dir, D2D1_ELLIPSE ell)
+  : direction(dir)
+  , ellipse(ell)
+{ }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "d2d1.h"
 
 namespace Tamarak {
@@ -26,3 +28,5 @@ struct comDeleter {
     ptr->Release();
   }
 };
+
+typedef std::unique_ptr<ID2D1SolidColorBrush, comDeleter<ID2D1SolidColorBrush>> SolidColorBrushPtr;

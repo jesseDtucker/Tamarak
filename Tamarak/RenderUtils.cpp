@@ -28,9 +28,17 @@ static void scaleBranchesToScreenSpace(vector<Branch>& branches) {
   }
 }
 
+static void scaleLeavesToScreenSpace(vector<Leaf>& leaves) {
+  for (auto& leaf : leaves) {
+    leaf.Setdirection(leaf.direction() * -1.f);
+    leaf.Setposition(leaf.position() * PIXELS_PER_METER * -1.f);
+  }
+}
+
 static void scaleBranchToScreenSpace(Branch& branch) {
   scaleSegmentsToScreenSpace(branch.Mutablebody());
   scaleBranchesToScreenSpace(branch.Mutablebranches());
+  scaleLeavesToScreenSpace(branch.Mutableleaves());
 }
 
 static void translateSegments(vector<Segment>& segments, const Vector2d& delta) {
@@ -39,9 +47,16 @@ static void translateSegments(vector<Segment>& segments, const Vector2d& delta) 
   }
 }
 
+static void translateLeaves(vector<Leaf>& leaves, const Vector2d& delta) {
+  for (auto& leaf : leaves) {
+    leaf.Setposition(leaf.position() + delta);
+  }
+}
+
 static void translateBranches(vector<Branch>& branches, const Vector2d& delta);
 static void translateBranch(Branch& branch, const Vector2d& delta) {
   translateSegments(branch.Mutablebody(), delta);
+  translateLeaves(branch.Mutableleaves(), delta);
   translateBranches(branch.Mutablebranches(), delta);
 }
 

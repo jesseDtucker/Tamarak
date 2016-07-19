@@ -39,6 +39,9 @@ Tamarak::Model::Branch Tamarak::Model::TreeGenerator::generateBranch(const Vecto
   subBranchDepth = max(subBranchDepth, 0);
   decorateSubBranches(branch, subBranchDepth);
 
+  // now add some leaves
+  addLeaves(branch);
+
   // now add some branches at the end of the body
   if (depth > 0) {
     auto branchEnd = *rbegin(branch.body());
@@ -87,6 +90,33 @@ void Tamarak::Model::TreeGenerator::decorateSubBranches(Branch& target, int dept
       Branch subBranch = generateBranch(pos, direction, startWidth, endWidth, nextDepth, length);
       target.Mutablebranches().push_back(subBranch);
     }
+  }
+}
+
+void TreeGenerator::addLeaves(Branch& target)
+{
+  const float MIN_DISTANCE_BETWEEN_LEAVES = 0.05f;
+  const float MAX_DISTANCE_BETWEEN_LEAVES = 0.25f;
+
+  const float MIN_ANGLE = 20.f * 2.f * PI / 360.f;
+  const float MAX_ANGLE = 60.f * 2.f * PI / 360.f;
+
+  auto angles = { -MAX_ANGLE, -MIN_ANGLE, MIN_ANGLE, MAX_ANGLE };
+  auto wieghts = { 1.0, 0.0, 1.0 };
+  auto angleDistribution = piecewise_constant_distribution<float>(begin(angles), end(angles), begin(wieghts));
+  auto distanceDistribution = uniform_real_distribution<float>(MIN_DISTANCE_BETWEEN_LEAVES, MAX_DISTANCE_BETWEEN_LEAVES);
+
+  auto nextPos = distanceDistribution(_rand);
+  float distanceTraveled = 0.0f;
+
+  for (const auto& segment : target.body()) {
+    if (distanceTraveled > nextPos) {
+      nextPos = distanceTraveled + distanceDistribution(_rand);
+      auto dir = segment.direction();
+      dir.rotate(angleDistribution(_rand));
+      target.Mutableleaves().push_back({ segment.position(), dir });
+    }
+    distanceTraveled += SEGMENT_SIZE;
   }
 }
 

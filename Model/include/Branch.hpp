@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "Leaf.hpp"
 #include "PropertyHelper.hpp"
 #include "Segment.hpp"
 
@@ -20,8 +21,10 @@ class Branch final {
   bool operator==(const Branch&) const;
   bool operator!=(const Branch&) const;
 
+  PROP_SET_AND_GET(std::vector<Leaf>, leaves);
   PROP_SET_AND_GET(std::vector<Segment>, body);
   PROP_SET_AND_GET(std::vector<Branch>, branches);
+
 
   void translate(const Vector2d& delta);
 

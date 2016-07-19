@@ -5,6 +5,7 @@
 #include <mutex>
 
 #include "DeviceResources.h"
+#include "RenderUtils.hpp"
 #include "Tree.hpp"
 
 namespace Tamarak {
@@ -23,12 +24,14 @@ class WireFrameTreeRenderer final {
   void drawBranches(const std::vector<Model::Branch>& branches, ID2D1DeviceContext2& context);
   void drawBranch(const Model::Branch& branch, ID2D1DeviceContext2& context);
   void drawTrunk(const Model::Trunk& trunk, ID2D1DeviceContext2& context);
+  void drawLeaves(const std::vector<Model::Leaf>& leaves, ID2D1DeviceContext2& context);
 
   Model::Tree _tree;
 
   std::shared_ptr<DX::DeviceResources> _deviceResources;
-  ID2D1SolidColorBrush* _directionBrush;
-  ID2D1SolidColorBrush* _crossSectionBrush;
-  ID2D1SolidColorBrush* _outlineBrush;
+  SolidColorBrushPtr _directionBrush;
+  SolidColorBrushPtr _crossSectionBrush;
+  SolidColorBrushPtr _outlineBrush;
+  SolidColorBrushPtr _leafBrush;
 };
 }

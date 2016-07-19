@@ -105,7 +105,7 @@ bool TamarakMain::Render() {
   context2d->BeginDraw();
   context2d->Clear(D2D1::ColorF(0x38393B));
 
-  //_wireFrameRenderer->render();
+  // _wireFrameRenderer->render();
   _solidRenderer->render();
 
   context2d->EndDraw();

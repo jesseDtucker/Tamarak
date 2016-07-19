@@ -10,6 +10,7 @@ using namespace Tamarak;
 using namespace Tamarak::Model;
 
 static const float DIRECTION_LENGTH = 8.f;
+static const float LEAF_LENGTH = 8.f;
 
 static vector<Segment> segmentsFromBranch(const Branch& branch) {
   vector<Segment> segments = branch.body();
@@ -26,12 +27,22 @@ static void drawVector(const Vector2d& start, const Vector2d& end, ID2D1DeviceCo
 
 WireFrameTreeRenderer::WireFrameTreeRenderer(const shared_ptr<DX::DeviceResources>& deviceResources)
     : _deviceResources(deviceResources) {
-  auto hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0xDB3F1B), &_directionBrush);
+  ID2D1SolidColorBrush* dirBrush;
+  ID2D1SolidColorBrush* crossBrush;
+  ID2D1SolidColorBrush* outlineBrush;
+  ID2D1SolidColorBrush* leafBrush;
+  auto hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0xDB3F1B), &dirBrush);
   ARC_ASSERT(SUCCEEDED(hr));
-  hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0x4FC6DB), &_crossSectionBrush);
+  hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0x4FC6DB), &crossBrush);
   ARC_ASSERT(SUCCEEDED(hr));
-  hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0xDFE9EB), &_outlineBrush);
+  hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0xDFE9EB), &outlineBrush);
   ARC_ASSERT(SUCCEEDED(hr));
+  hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0x195E19), &leafBrush);
+  ARC_ASSERT(SUCCEEDED(hr));
+  _directionBrush = SolidColorBrushPtr{ dirBrush };
+  _crossSectionBrush = SolidColorBrushPtr{ crossBrush };
+  _outlineBrush = SolidColorBrushPtr{ outlineBrush };
+  _leafBrush = SolidColorBrushPtr{ leafBrush };
 }
 
 void WireFrameTreeRenderer::render() {
@@ -75,6 +86,14 @@ void WireFrameTreeRenderer::drawBranches(const vector<Branch>& branches, ID2D1De
 void WireFrameTreeRenderer::drawBranch(const Branch& branch, ID2D1DeviceContext2& context) {
   drawSegments(branch.body(), context);
   drawBranches(branch.branches(), context);
+  drawLeaves(branch.leaves(), context);
+}
+
+void WireFrameTreeRenderer::drawLeaves(const vector<Leaf>& leaves, ID2D1DeviceContext2& context) {
+  for (const auto& leaf : leaves) {
+    auto endPoint = leaf.position() + leaf.direction() * LEAF_LENGTH;
+    drawVector(leaf.position(), endPoint, context, *_leafBrush);
+  }
 }
 
 void WireFrameTreeRenderer::drawTrunk(const Trunk& trunk, ID2D1DeviceContext2& context) {

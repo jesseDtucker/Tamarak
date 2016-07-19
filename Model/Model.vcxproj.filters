@@ -37,6 +37,9 @@
     <ClCompile Include="src\Branch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Leaf.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="proto\impl\tree.pb.h">
@@ -58,6 +61,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Segment.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Leaf.hpp">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
