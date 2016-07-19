@@ -9,7 +9,7 @@
 
     <SwapChainPanel x:Name="swapChainPanel">
         <Button Click="Button_Click"  HorizontalAlignment="Right" VerticalAlignment="Top" Background="LightSlateGray">
-            <TextBlock Text="NEW TREE"/>
+            <TextBlock Text="NEW TREE" FontSize="28"/>
         </Button>
     </SwapChainPanel>
 

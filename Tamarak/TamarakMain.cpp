@@ -103,7 +103,7 @@ bool TamarakMain::Render() {
 
   auto context2d = _deviceResources->GetD2DDeviceContext();
   context2d->BeginDraw();
-  context2d->Clear(D2D1::ColorF(0x38393B));
+  context2d->Clear(D2D1::ColorF(0xB6BFBB));
 
   // _wireFrameRenderer->render();
   _solidRenderer->render();

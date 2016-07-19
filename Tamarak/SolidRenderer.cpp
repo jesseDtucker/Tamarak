@@ -105,7 +105,7 @@ SolidRenderer::SolidRenderer(const std::shared_ptr<DX::DeviceResources>& deviceR
   ID2D1SolidColorBrush* lb3;
   ID2D1SolidColorBrush* lb4;
   ID2D1SolidColorBrush* lb5;
-  auto hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0xB27D67), &brownBrush);
+  auto hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0x593330), &brownBrush);
   ARC_ASSERT(SUCCEEDED(hr));
   hr = deviceResources->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(0x083B02), &lb1);
   ARC_ASSERT(SUCCEEDED(hr));
